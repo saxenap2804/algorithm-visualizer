@@ -4,11 +4,6 @@ A beautiful, interactive web application that visualizes sorting algorithms in r
 
 ![Algorithm Visualizer](https://img.shields.io/badge/React-18.2.0-blue) ![Status](https://img.shields.io/badge/Status-Active-success)
 
-## 🌟 Live Demo
-
-[View Live Demo](https://your-vercel-url-here.vercel.app)
-
-## ✨ Features
 
 ### 🎨 Visual Features
 - **Real-time Animation** - Watch bars being compared, swapped, and sorted
@@ -137,20 +132,13 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## 👨‍💻 Author
 
-**Prashant Saxena**
+**Priyanka Saxena**
 - GitHub: [@saxenap2804](https://github.com/saxenap2804)
 - Project: [Algorithm Visualizer](https://github.com/saxenap2804/algorithm-visualizer)
 
 ## 🙏 Acknowledgments
 
-- Inspired by VisualAlgo and Sorting Visualizer projects
+
 - Built to help students learn sorting algorithms visually
 - Thanks to the React community for amazing tools!
 
-## 📸 Screenshots
-
-*Add screenshots of your app here after deployment!*
-
----
-
-Made with ❤️ and React | Learn DSA Visually! 🚀 
