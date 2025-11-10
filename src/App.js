@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './App.css';
 
 function App() {
@@ -12,6 +12,9 @@ function App() {
   const [showInfo, setShowInfo] = useState(false);
   const [comparisons, setComparisons] = useState(0);
   const [swaps, setSwaps] = useState(0);
+  
+  // Cancellation flag
+  const cancelSortRef = useRef(false);
 
   // Algorithm information
   const algorithmInfo = {
@@ -94,9 +97,15 @@ function App() {
     generateArray();
   }, [generateArray]);
 
-  // Delay function for animation
-  const delay = (ms) => new Promise(resolve => {
+  // Delay function for animation with cancellation check
+  const delay = (ms) => new Promise((resolve, reject) => {
     const checkPause = () => {
+      // Check if sorting was cancelled
+      if (cancelSortRef.current) {
+        reject(new Error('Sorting cancelled'));
+        return;
+      }
+      
       if (!isPaused) {
         setTimeout(resolve, ms);
       } else {
@@ -106,8 +115,12 @@ function App() {
     checkPause();
   });
 
-  // Update array with colors
+  // Update array with colors and cancellation check
   const updateArray = async (newArray, indices, color) => {
+    if (cancelSortRef.current) {
+      throw new Error('Sorting cancelled');
+    }
+    
     const updatedArray = [...newArray];
     indices.forEach(idx => {
       updatedArray[idx] = { ...updatedArray[idx], color };
@@ -128,35 +141,43 @@ function App() {
     setIsSorting(true);
     setComparisons(0);
     setSwaps(0);
+    cancelSortRef.current = false;
     let arr = [...array];
     const n = arr.length;
     let compCount = 0;
     let swapCount = 0;
 
-    for (let i = 0; i < n - 1; i++) {
-      for (let j = 0; j < n - i - 1; j++) {
-        compCount++;
-        setComparisons(compCount);
-        await updateArray(arr, [j, j + 1], '#fbbf24');
+    try {
+      for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
+          compCount++;
+          setComparisons(compCount);
+          await updateArray(arr, [j, j + 1], '#fbbf24');
 
-        if (arr[j].value > arr[j + 1].value) {
-          [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-          swapCount++;
-          setSwaps(swapCount);
-          await updateArray(arr, [j, j + 1], '#ef4444');
+          if (arr[j].value > arr[j + 1].value) {
+            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            swapCount++;
+            setSwaps(swapCount);
+            await updateArray(arr, [j, j + 1], '#ef4444');
+          }
+
+          arr[j].color = '#4ade80';
+          arr[j + 1].color = '#4ade80';
+          setArray([...arr]);
+          await delay(101 - speed);
         }
-
-        arr[j].color = '#4ade80';
-        arr[j + 1].color = '#4ade80';
-        setArray([...arr]);
-        await delay(101 - speed);
+        arr[n - 1 - i].color = '#8b5cf6';
       }
-      arr[n - 1 - i].color = '#8b5cf6';
+      arr[0].color = '#8b5cf6';
+      setArray([...arr]);
+    } catch (error) {
+      console.log('Sorting stopped by user');
+      arr.forEach(item => item.color = '#4ade80');
+      setArray([...arr]);
+    } finally {
+      setIsSorting(false);
+      setIsPaused(false);
     }
-    arr[0].color = '#8b5cf6';
-    setArray([...arr]);
-    setIsSorting(false);
-    setIsPaused(false);
   };
 
   // SELECTION SORT
@@ -164,48 +185,56 @@ function App() {
     setIsSorting(true);
     setComparisons(0);
     setSwaps(0);
+    cancelSortRef.current = false;
     let arr = [...array];
     const n = arr.length;
     let compCount = 0;
     let swapCount = 0;
 
-    for (let i = 0; i < n - 1; i++) {
-      let minIdx = i;
-      arr[minIdx].color = '#ef4444';
-      setArray([...arr]);
-      await delay(101 - speed);
-
-      for (let j = i + 1; j < n; j++) {
-        compCount++;
-        setComparisons(compCount);
-        arr[j].color = '#fbbf24';
+    try {
+      for (let i = 0; i < n - 1; i++) {
+        let minIdx = i;
+        arr[minIdx].color = '#ef4444';
         setArray([...arr]);
         await delay(101 - speed);
 
-        if (arr[j].value < arr[minIdx].value) {
-          arr[minIdx].color = '#4ade80';
-          minIdx = j;
-          arr[minIdx].color = '#ef4444';
-        } else {
-          arr[j].color = '#4ade80';
-        }
-        setArray([...arr]);
-      }
+        for (let j = i + 1; j < n; j++) {
+          compCount++;
+          setComparisons(compCount);
+          arr[j].color = '#fbbf24';
+          setArray([...arr]);
+          await delay(101 - speed);
 
-      if (minIdx !== i) {
-        [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
-        swapCount++;
-        setSwaps(swapCount);
+          if (arr[j].value < arr[minIdx].value) {
+            arr[minIdx].color = '#4ade80';
+            minIdx = j;
+            arr[minIdx].color = '#ef4444';
+          } else {
+            arr[j].color = '#4ade80';
+          }
+          setArray([...arr]);
+        }
+
+        if (minIdx !== i) {
+          [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
+          swapCount++;
+          setSwaps(swapCount);
+        }
+        arr[minIdx].color = '#4ade80';
+        arr[i].color = '#8b5cf6';
+        setArray([...arr]);
+        await delay(101 - speed);
       }
-      arr[minIdx].color = '#4ade80';
-      arr[i].color = '#8b5cf6';
+      arr[n - 1].color = '#8b5cf6';
       setArray([...arr]);
-      await delay(101 - speed);
+    } catch (error) {
+      console.log('Sorting stopped by user');
+      arr.forEach(item => item.color = '#4ade80');
+      setArray([...arr]);
+    } finally {
+      setIsSorting(false);
+      setIsPaused(false);
     }
-    arr[n - 1].color = '#8b5cf6';
-    setArray([...arr]);
-    setIsSorting(false);
-    setIsPaused(false);
   };
 
   // INSERTION SORT
@@ -213,42 +242,50 @@ function App() {
     setIsSorting(true);
     setComparisons(0);
     setSwaps(0);
+    cancelSortRef.current = false;
     let arr = [...array];
     const n = arr.length;
     let compCount = 0;
     let swapCount = 0;
 
-    for (let i = 1; i < n; i++) {
-      let key = arr[i];
-      let j = i - 1;
+    try {
+      for (let i = 1; i < n; i++) {
+        let key = arr[i];
+        let j = i - 1;
 
-      arr[i].color = '#fbbf24';
-      setArray([...arr]);
-      await delay(101 - speed);
-
-      while (j >= 0 && arr[j].value > key.value) {
-        compCount++;
-        setComparisons(compCount);
-        arr[j].color = '#ef4444';
+        arr[i].color = '#fbbf24';
         setArray([...arr]);
         await delay(101 - speed);
 
-        arr[j + 1] = arr[j];
-        swapCount++;
-        setSwaps(swapCount);
-        arr[j].color = '#4ade80';
-        j--;
-      }
-      arr[j + 1] = key;
-      arr[j + 1].color = '#8b5cf6';
-      setArray([...arr]);
-      await delay(101 - speed);
-    }
+        while (j >= 0 && arr[j].value > key.value) {
+          compCount++;
+          setComparisons(compCount);
+          arr[j].color = '#ef4444';
+          setArray([...arr]);
+          await delay(101 - speed);
 
-    arr.forEach(item => item.color = '#8b5cf6');
-    setArray([...arr]);
-    setIsSorting(false);
-    setIsPaused(false);
+          arr[j + 1] = arr[j];
+          swapCount++;
+          setSwaps(swapCount);
+          arr[j].color = '#4ade80';
+          j--;
+        }
+        arr[j + 1] = key;
+        arr[j + 1].color = '#8b5cf6';
+        setArray([...arr]);
+        await delay(101 - speed);
+      }
+
+      arr.forEach(item => item.color = '#8b5cf6');
+      setArray([...arr]);
+    } catch (error) {
+      console.log('Sorting stopped by user');
+      arr.forEach(item => item.color = '#4ade80');
+      setArray([...arr]);
+    } finally {
+      setIsSorting(false);
+      setIsPaused(false);
+    }
   };
 
   // QUICK SORT
@@ -256,6 +293,7 @@ function App() {
     setIsSorting(true);
     setComparisons(0);
     setSwaps(0);
+    cancelSortRef.current = false;
     let arr = [...array];
     let compCount = 0;
     let swapCount = 0;
@@ -306,9 +344,16 @@ function App() {
       }
     };
 
-    await quickSortHelper(0, arr.length - 1);
-    setIsSorting(false);
-    setIsPaused(false);
+    try {
+      await quickSortHelper(0, arr.length - 1);
+    } catch (error) {
+      console.log('Sorting stopped by user');
+      arr.forEach(item => item.color = '#4ade80');
+      setArray([...arr]);
+    } finally {
+      setIsSorting(false);
+      setIsPaused(false);
+    }
   };
 
   // MERGE SORT
@@ -316,6 +361,7 @@ function App() {
     setIsSorting(true);
     setComparisons(0);
     setSwaps(0);
+    cancelSortRef.current = false;
     let arr = [...array];
     let compCount = 0;
     let swapCount = 0;
@@ -377,9 +423,16 @@ function App() {
       }
     };
 
-    await mergeSortHelper(0, arr.length - 1);
-    setIsSorting(false);
-    setIsPaused(false);
+    try {
+      await mergeSortHelper(0, arr.length - 1);
+    } catch (error) {
+      console.log('Sorting stopped by user');
+      arr.forEach(item => item.color = '#4ade80');
+      setArray([...arr]);
+    } finally {
+      setIsSorting(false);
+      setIsPaused(false);
+    }
   };
 
   const handleSort = () => {
@@ -409,9 +462,12 @@ function App() {
   };
 
   const stopSort = () => {
+    cancelSortRef.current = true;
     setIsSorting(false);
     setIsPaused(false);
-    generateArray();
+    setTimeout(() => {
+      generateArray();
+    }, 100);
   };
 
   return (
