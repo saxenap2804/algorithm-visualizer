@@ -1,70 +1,156 @@
-# Getting Started with Create React App
+# 🎯 Algorithm Visualizer Pro
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A beautiful, interactive web application that visualizes sorting algorithms in real-time. Watch how different algorithms sort data with stunning animations, sound effects, and detailed statistics!
 
-## Available Scripts
+![Algorithm Visualizer](https://img.shields.io/badge/React-18.2.0-blue) ![Status](https://img.shields.io/badge/Status-Active-success)
 
-In the project directory, you can run:
+## 🌟 Live Demo
 
-### `npm start`
+[View Live Demo](https://your-vercel-url-here.vercel.app)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## ✨ Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🎨 Visual Features
+- **Real-time Animation** - Watch bars being compared, swapped, and sorted
+- **Color-coded Operations**:
+  - 🟢 Green: Unsorted elements
+  - 🟡 Yellow: Elements being compared
+  - 🔴 Red: Elements being swapped
+  - 🟣 Purple: Sorted elements
 
-### `npm test`
+### 📊 Statistics & Information
+- **Time Complexity Display** - See Big O notation for each algorithm
+- **Real-time Counters** - Track comparisons and swaps as they happen
+- **Algorithm Info Panel** - Learn how each algorithm works
+- **Performance Metrics** - Best case, worst case, and space complexity
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🎮 Interactive Controls
+- **5 Sorting Algorithms**:
+  - Bubble Sort - O(n²)
+  - Selection Sort - O(n²)
+  - Insertion Sort - O(n²)
+  - Quick Sort - O(n log n)
+  - Merge Sort - O(n log n)
+- **Pause/Resume** - Control the visualization flow
+- **Stop** - Reset and start over
+- **Adjustable Speed** - Slow down or speed up animations (1-100)
+- **Adjustable Size** - Visualize 10-100 elements
+- **Generate New Array** - Create random datasets
 
-### `npm run build`
+### 🔊 Audio Features
+- **Sound Effects** - Hear each comparison with pitch-based audio
+- **Toggle Sound** - Turn audio on/off with one click
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Getting Started
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
+- Node.js (v18+ recommended)
+- npm or yarn
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+1. Clone the repository:
+```bash
+git clone https://github.com/saxenap2804/algorithm-visualizer.git
+cd algorithm-visualizer
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. Install dependencies:
+```bash
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Start the development server:
+```bash
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🎓 How It Works
 
-## Learn More
+### Understanding the Colors
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **🟢 Green (Unsorted)**: Elements waiting to be processed
+2. **🟡 Yellow (Comparing)**: Algorithm is comparing these elements
+3. **🔴 Red (Swapping)**: Elements are being swapped
+4. **🟣 Purple (Sorted)**: Elements in their final sorted position
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Reading the Stats
 
-### Code Splitting
+- **Algorithm**: Currently selected sorting algorithm
+- **Time Complexity**: Worst-case Big O notation
+- **Space**: Additional memory required
+- **Comparisons**: Number of times elements are compared
+- **Swaps**: Number of times elements are moved
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Algorithm Explanations
 
-### Analyzing the Bundle Size
+Click the **ℹ️ Info** button while visualizing to see:
+- How the algorithm works
+- Step-by-step explanation
+- Time and space complexity details
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🛠️ Built With
 
-### Making a Progressive Web App
+- **React** - UI framework
+- **JavaScript (ES6+)** - Core logic
+- **CSS3** - Styling and animations
+- **Web Audio API** - Sound effects
+- **Create React App** - Project setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📱 Responsive Design
 
-### Advanced Configuration
+Works beautifully on:
+- 💻 Desktop computers
+- 📱 Tablets
+- 🖥️ Large monitors
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 🎯 Algorithms Implemented
 
-### Deployment
+| Algorithm | Time Complexity | Space | Stable |
+|-----------|----------------|-------|--------|
+| Bubble Sort | O(n²) | O(1) | Yes |
+| Selection Sort | O(n²) | O(1) | No |
+| Insertion Sort | O(n²) | O(1) | Yes |
+| Quick Sort | O(n log n) | O(log n) | No |
+| Merge Sort | O(n log n) | O(n) | Yes |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🎮 Usage Tips
 
-### `npm run build` fails to minify
+1. **Start Small**: Begin with 20-30 elements to see individual comparisons
+2. **Slow It Down**: Lower speed to understand each step
+3. **Compare Algorithms**: Try the same array with different algorithms
+4. **Use Info Panel**: Click ℹ️ to learn while watching
+5. **Enable Sound**: 🔊 Hear the sorting process!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+- 🐛 Report bugs
+- 💡 Suggest new features
+- 🔧 Submit pull requests
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 👨‍💻 Author
+
+**Prashant Saxena**
+- GitHub: [@saxenap2804](https://github.com/saxenap2804)
+- Project: [Algorithm Visualizer](https://github.com/saxenap2804/algorithm-visualizer)
+
+## 🙏 Acknowledgments
+
+- Inspired by VisualAlgo and Sorting Visualizer projects
+- Built to help students learn sorting algorithms visually
+- Thanks to the React community for amazing tools!
+
+## 📸 Screenshots
+
+*Add screenshots of your app here after deployment!*
+
+---
+
+Made with ❤️ and React | Learn DSA Visually! 🚀 
